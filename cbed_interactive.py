@@ -131,7 +131,7 @@ if __name__ == "__main__":
     line1 = (data*m1).sum(0)/m1.sum(0)
     line2 = (data*m2).sum(0)/m2.sum(0)
     m2l = m2.any(0)
-    x = (np.arange(data.shape[1]) - c1[0])/(c2[0]-c1[0])
+    x = (np.arange(data.shape[1]) - c2[0])/(c2[0]-c1[0])
 
     plt.figure("CBED Fit")
     ax_img = plt.axes([0.1, 0.65, 0.8, 0.30])
@@ -162,8 +162,10 @@ if __name__ == "__main__":
         pos = slider_pos.val
         xi_g = slider_xi_g.val
 
-        #s_g = np.sqrt(k_len*k_len + 2*(x-1+pos)*g_len*g_len ) - k_len
-        s_g = (x-1+pos)*g_len*g_len/k_len
+
+        k_x = (-0.5 + x + pos)*g_len
+        #s_g = np.sqrt(k_len*k_len - (2*k_x + g_len)*g_len) - k_len
+        s_g = -(2*k_x + g_len)*g_len/k_len/2
 
         s_ef = np.sqrt(s_g*s_g + 1/xi_g/xi_g)
         I = np.sin(np.pi*z*s_ef)**2/(xi_g*s_ef)**2
